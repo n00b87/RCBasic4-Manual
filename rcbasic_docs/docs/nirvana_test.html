@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nirvana2D — API Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0c10;
+    --surface:   #111318;
+    --surface2:  #181c23;
+    --border:    rgba(255,255,255,0.07);
+    --border2:   rgba(255,255,255,0.12);
+    --accent:    #f472b6;
+    --accent2:   #fb923c;
+    --accent3:   #34d399;
+    --text:      #e8eaf0;
+    --muted:     #6b7280;
+    --fn-bg:     rgba(244,114,182,0.08);
+    --fn-color:  #f472b6;
+    --sub-bg:    rgba(251,146,60,0.08);
+    --sub-color: #fb923c;
+    --dim-bg:    rgba(52,211,153,0.08);
+    --dim-color: #34d399;
+    --type-bg:   rgba(167,139,250,0.08);
+    --type-color:#a78bfa;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 1;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(244,114,182,0.04) 0%, transparent 100%);
+    display: flex; flex-direction: column; align-items: flex-start;
+    max-width: 1100px; margin: 0 auto;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent);
+    background: var(--fn-bg);
+    border: 1px solid rgba(244,114,182,0.2);
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .subtitle {
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 1rem; font-weight: 400;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  .note-box {
+    margin-top: 1.2rem;
+    padding: 10px 16px;
+    background: rgba(251,146,60,0.07);
+    border: 1px solid rgba(251,146,60,0.2);
+    border-radius: 10px;
+    font-size: 13px;
+    color: #fdba74;
+    animation: fadeUp 0.5s 0.25s ease both;
+  }
+  .note-box strong { color: #fb923c; }
+
+  .stats {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-n {
+    font-size: 1.6rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  nav.sidebar {
+    position: sticky; top: 2rem;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .nav-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0 8px; margin-bottom: 6px; margin-top: 1rem;
+  }
+  .nav-label:first-child { margin-top: 0; }
+
+  nav.sidebar a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 8px;
+    color: var(--muted); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+  }
+  nav.sidebar a:hover {
+    color: var(--text);
+    background: var(--surface2);
+    border-color: var(--border2);
+  }
+  nav.sidebar a .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; opacity: 0.4; flex-shrink: 0;
+  }
+  nav.sidebar a:hover .dot { opacity: 1; }
+
+  /* ── MAIN ── */
+  main { display: flex; flex-direction: column; gap: 3rem; }
+
+  /* ── SECTION ── */
+  section { animation: fadeUp 0.5s ease both; }
+  section:nth-child(1) { animation-delay: 0.05s; }
+  section:nth-child(2) { animation-delay: 0.10s; }
+  section:nth-child(3) { animation-delay: 0.15s; }
+  section:nth-child(4) { animation-delay: 0.20s; }
+  section:nth-child(5) { animation-delay: 0.25s; }
+  section:nth-child(6) { animation-delay: 0.30s; }
+  section:nth-child(7) { animation-delay: 0.35s; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .section-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+
+  .section-title { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+  .section-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 20px;
+  }
+
+  /* section colors */
+  .overview-section  .section-icon { background: rgba(244,114,182,0.12); }
+  .stage-section     .section-icon { background: rgba(167,139,250,0.12); }
+  .layer-section     .section-icon { background: rgba(110,231,255,0.12); }
+  .sprite-section    .section-icon { background: rgba(251,191,36,0.12);  }
+  .tile-section      .section-icon { background: rgba(52,211,153,0.12);  }
+  .bkg-section       .section-icon { background: rgba(251,146,60,0.12);  }
+  .types-section     .section-icon { background: rgba(167,139,250,0.12); }
+
+  .overview-section  .section-title { color: var(--accent); }
+  .stage-section     .section-title { color: #a78bfa; }
+  .layer-section     .section-title { color: #6ee7ff; }
+  .sprite-section    .section-title { color: #fbbf24; }
+  .tile-section      .section-title { color: var(--accent3); }
+  .bkg-section       .section-title { color: var(--accent2); }
+  .types-section     .section-title { color: #a78bfa; }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+  thead { background: var(--surface2); border-bottom: 1px solid var(--border); }
+  th {
+    padding: 10px 16px; text-align: left;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  th:first-child { width: 40%; }
+  th:nth-child(2) { width: 10%; }
+
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr { transition: background 0.15s; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* sub-header rows inside table */
+  .subhead td {
+    background: var(--surface2) !important;
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* badges */
+  .badge {
+    display: inline-flex; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-fn   { background: var(--fn-bg);   color: var(--fn-color);   border: 1px solid rgba(244,114,182,0.2); }
+  .badge-sub  { background: var(--sub-bg);  color: var(--sub-color);  border: 1px solid rgba(251,146,60,0.2); }
+  .badge-type { background: var(--type-bg); color: var(--type-color); border: 1px solid rgba(167,139,250,0.2); }
+
+  /* code name in first cell */
+  .fn-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--fn-color);
+    word-break: break-word;
+  }
+  .fn-name.sub  { color: var(--sub-color); }
+  .fn-name.type { color: var(--type-color); }
+  .fn-name .param { color: #fb923c; }
+
+  /* description */
+  .desc { color: #9ca3af; line-height: 1.55; }
+  .desc code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--border2);
+    padding: 1px 5px; border-radius: 4px;
+    color: var(--text);
+  }
+
+  /* return type pill */
+  .ret {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    background: rgba(52,211,153,0.08);
+    border: 1px solid rgba(52,211,153,0.2);
+    color: #34d399;
+    padding: 1px 7px; border-radius: 20px;
+    margin-left: 6px;
+  }
+
+  /* note inline */
+  .note {
+    display: block; margin-top: 4px;
+    font-size: 11.5px; color: var(--muted);
+    font-style: italic;
+  }
+
+  /* dim members */
+  .members { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+  .dim {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    background: var(--dim-bg);
+    border: 1px solid rgba(52,211,153,0.2);
+    color: var(--dim-color);
+    padding: 1px 7px; border-radius: 4px;
+  }
+
+  /* values chips */
+  .values { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+  .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border2);
+    color: #c4b5fd;
+    padding: 1px 7px; border-radius: 4px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+  @media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; }
+    nav.sidebar { display: none; }
+    header { padding: 2.5rem 1.2rem 2rem; }
+    .container { padding: 2rem 1.2rem 4rem; }
+    .stats { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="tag">RCBasic · Level Editors</span>
+  <h1>Nirvana2D<br>API Reference</h1>
+  <p class="subtitle">Construye niveles 2D visualmente y accede a sus objetos directamente desde código RCBasic.</p>
+  <div class="note-box">
+    <strong>Nota:</strong> La API de Nirvana2D usa Types (structs) personalizados. Incluye el header de Nirvana2D en tu proyecto para acceder a ellos.
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-n">7</span><span class="stat-l">Secciones</span></div>
+    <div class="stat"><span class="stat-n">8</span><span class="stat-l">Types</span></div>
+    <div class="stat"><span class="stat-n">40+</span><span class="stat-l">Funciones</span></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <span class="nav-label">Secciones</span>
+    <a href="#overview"><span class="dot"></span>Overview</a>
+    <a href="#stages"><span class="dot"></span>Stages</a>
+    <a href="#layers"><span class="dot"></span>Layers</a>
+    <a href="#sprite"><span class="dot"></span>Sprite</a>
+    <a href="#tile"><span class="dot"></span>Tile</a>
+    <a href="#background"><span class="dot"></span>Background</a>
+    <a href="#types"><span class="dot"></span>Types</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="overview-section">
+      <div class="section-header">
+        <div class="section-icon">✦</div>
+        <span class="section-title">Overview</span>
+        <span class="section-count">8 types · 2 funciones base</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Tipo</th><th>Descripción / Miembros</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Vector2D</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim X</span><span class="dim">Dim Y</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Size2D</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Width</span><span class="dim">Dim Height</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Sprite</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Name$</span><span class="dim">Dim BaseName$</span><span class="dim">Dim Sprite_ID</span><span class="dim">Dim Animation_Name_Index</span><span class="dim">Dim Animation_Count</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_TileMap</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim TilesetName$</span><span class="dim">Dim Tileset_ID</span><span class="dim">Dim TileMap_ID</span><span class="dim">Dim Mask_Index</span><span class="dim">Dim Mask_Count</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Background</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Image_ID</span><span class="dim">Dim RenderSetting</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Shape</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Sprite_ID</span><span class="dim">Dim ShapeType</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Layer</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Name$</span><span class="dim">Dim LayerType</span><span class="dim">Dim Visible</span><span class="dim">Dim Alpha</span><span class="dim">Dim Scroll_Speed As Nirvana_Vector2D</span><span class="dim">Dim Ref_Canvas</span><span class="dim">Dim Layer_TileMap As Nirvana_TileMap</span><span class="dim">Dim Layer_Sprite_Count</span><span class="dim">Dim Layer_Shape_Count</span><span class="dim">Dim Bkg As Nirvana_Background</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Stage</span></td>
+              <td><span class="badge badge-type">Type</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Active</span><span class="dim">Dim Name$</span><span class="dim">Dim Tile_Size As Nirvana_Size2D</span><span class="dim">Dim Stage_Size As Nirvana_Size2D</span><span class="dim">Dim Layer_Count</span><span class="dim">Dim Viewport_Size As Nirvana_Size2D</span><span class="dim">Dim Stage_Offset As Nirvana_Vector2D</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateVector2D(<span class="param">x, y</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Crea un vector 2D. <span class="ret">→ Nirvana_Vector2D</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateSize2D(<span class="param">w, h</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Crea un tamaño 2D. <span class="ret">→ Nirvana_Size2D</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateSprite(<span class="param">spriteDefinition_name$, sprite_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Crea un sprite Nirvana. <span class="ret">→ Nirvana_Sprite</span><span class="note">spriteDefinition_name$ es el nombre del sprite base creado en el Sprite Editor.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateTileMap(<span class="param">tset_name$, tmap_width, tmap_height</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Crea un TileMap Nirvana. <span class="ret">→ Nirvana_TileMap</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_LoadStage(<span class="param">stage_name$, viewport_x, viewport_y, viewport_w, viewport_h</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Carga un stage y define la región de la ventana en la que se renderiza.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_Update()</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Debe usarse en lugar de <code>Update()</code> cuando se usa Nirvana2D.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerIndex(<span class="param">layer_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice interno de Nirvana para el nombre de layer dado, o <code>-1</code> si no existe.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerCanvasID(<span class="param">layer_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el canvas ID de RCBasic del layer indicado, o <code>-1</code> si es inválido.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- STAGES -->
+    <section id="stages" class="stage-section">
+      <div class="section-header">
+        <div class="section-icon">🗺️</div>
+        <span class="section-title">Stages</span>
+        <span class="section-count">7 entradas</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Función / Sub</th><th>Tipo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Nirvana_LoadStage(<span class="param">stage_name$, viewport_x, viewport_y, viewport_w, viewport_h</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Carga un stage y define la región de la ventana para renderizarlo.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_SetStageViewport(<span class="param">v_position As Nirvana_Vector2D, v_size As Nirvana_Size2D</span>)</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Establece la posición y tamaño del viewport actual.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetViewportPosition()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna la posición actual del viewport. <span class="ret">→ Nirvana_Vector2D</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetViewportSize()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el tamaño actual del viewport. <span class="ret">→ Nirvana_Size2D</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_SetStageOffset(<span class="param">offset As Nirvana_Vector2D</span>)</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Establece la posición de la cámara.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetStageOffset()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna la posición de la cámara. <span class="ret">→ Nirvana_Vector2D</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_Update()</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Debe usarse en lugar de <code>Update()</code> cuando se usa Nirvana2D.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- LAYERS -->
+    <section id="layers" class="layer-section">
+      <div class="section-header">
+        <div class="section-icon">🗂️</div>
+        <span class="section-title">Layers</span>
+        <span class="section-count">6 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerIndex(<span class="param">layer_name$</span>)</span></td>
+              <td class="desc">Retorna el índice interno de Nirvana para el nombre dado, o <code>-1</code> si no existe.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerCanvasID(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el canvas ID de RCBasic del layer, o <code>-1</code> si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerType(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">
+                Retorna el tipo del layer, o <code>-1</code> si es inválido.
+                <div class="values">
+                  <span class="val">NIRVANA_LAYER_TYPE_TILEMAP</span>
+                  <span class="val">NIRVANA_LAYER_TYPE_SPRITE</span>
+                  <span class="val">NIRVANA_LAYER_TYPE_CANVAS_2D</span>
+                  <span class="val">NIRVANA_LAYER_TYPE_CANVAS_3D</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerName$(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el nombre del layer, o cadena vacía si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerAlpha(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el valor de alpha del layer configurado en Nirvana.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerScrollSpeed(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna la velocidad de scroll horizontal y vertical. <span class="ret">→ Nirvana_Vector2D</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SPRITE -->
+    <section id="sprite" class="sprite-section">
+      <div class="section-header">
+        <div class="section-icon">🎭</div>
+        <span class="section-title">Sprite</span>
+        <span class="section-count">11 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateSprite(<span class="param">spriteDefinition_name$, sprite_name$</span>)</span></td>
+              <td class="desc">Crea un sprite Nirvana. <span class="ret">→ Nirvana_Sprite</span><span class="note">spriteDefinition_name$ es el nombre del sprite base en el Sprite Editor.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerSpriteCount(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el número de sprites en el layer dado.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerSpriteIndex(<span class="param">layer_index, sprite_name$</span>)</span></td>
+              <td class="desc">Retorna el índice Nirvana del sprite por nombre en el layer, o <code>-1</code> si no se encuentra.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerShapeCount(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el número de formas de colisión del stage en el layer dado.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteID(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna el sprite ID de RCBasic del índice Nirvana dado, o <code>-1</code> si es inválido.<span class="note">Si el sprite está desvinculado, retorna el ID del sprite de renderizado.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteName$(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna el nombre del sprite, o cadena vacía si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteDefinitionName$(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna el nombre de la definición del sprite (nombre base del Sprite Editor).</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteIsDetached(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna <code>TRUE</code> si el sprite tiene cuerpo de render y cuerpo de dinámica separados.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetDetachedSpriteID(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna el ID del cuerpo de dinámica del sprite.<span class="note">Usa este ID para operaciones de física.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteAnimationCount(<span class="param">sprite_index</span>)</span></td>
+              <td class="desc">Retorna el número de animaciones del sprite Nirvana dado.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetSpriteAnimationName$(<span class="param">sprite_index, animation_num</span>)</span></td>
+              <td class="desc">Retorna el nombre de la animación indicada.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TILE -->
+    <section id="tile" class="tile-section">
+      <div class="section-header">
+        <div class="section-icon">🧩</div>
+        <span class="section-title">Tile</span>
+        <span class="section-count">11 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr class="subhead"><td colspan="2">Tile Map</td></tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_CreateTileMap(<span class="param">tset_name$, tmap_width, tmap_height</span>)</span></td>
+              <td class="desc">Crea un TileMap Nirvana. <span class="ret">→ Nirvana_TileMap</span></td>
+            </tr>
+            <tr class="subhead"><td colspan="2">Tile Layer Properties</td></tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerTileSetName$(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el nombre del tileset del layer, o cadena vacía si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerTileSetID(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el ID de tileset de RCBasic del layer Nirvana, o <code>-1</code> si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerTileMapID(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el ID de tile map de RCBasic del layer, o <code>-1</code> si es inválido.</td>
+            </tr>
+            <tr class="subhead"><td colspan="2">Tile Mask</td></tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerTileMaskCount(<span class="param">layer_index</span>)</span></td>
+              <td class="desc">Retorna el número de tile masks en el tileset del layer.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerTileMaskIndex(<span class="param">layer_index, mask_num</span>)</span></td>
+              <td class="desc">Retorna el índice de tile mask Nirvana para el número dado, o <code>-1</code> si es inválido.<span class="note">mask_num va de 0 a Nirvana_GetLayerTileMaskCount(layer_index)-1</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetTileMaskName$(<span class="param">mask_index</span>)</span></td>
+              <td class="desc">Retorna el nombre del tile mask, o cadena vacía si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetTileMaskMatrix(<span class="param">mask_index</span>)</span></td>
+              <td class="desc">Retorna el ID de matriz de RCBasic del mask, o <code>-1</code> si es inválido.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerMaskHit(<span class="param">layer_index, mask_index, x, y</span>)</span></td>
+              <td class="desc">Retorna <code>TRUE</code> si el tile en la posición de mundo dada está marcado en el mask.<span class="note">(x, y) es posición de mundo, no fila/columna.</span></td>
+            </tr>
+            <tr class="subhead"><td colspan="2">Set / Get Tiles</td></tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetTile(<span class="param">layer_index, x, y</span>)</span></td>
+              <td class="desc">Retorna el índice del tile en la posición de mapa dada.<span class="note">(x, y) es posición de fila/columna, no posición de mundo.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetTileMapPosition(<span class="param">layer_index, stage_x, stage_y</span>)</span></td>
+              <td class="desc">Retorna la posición fila/columna del tile en la posición de mundo dada. <span class="ret">→ Nirvana_Vector2D</span><span class="note">(x, y) es posición de mundo.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BACKGROUND -->
+    <section id="background" class="bkg-section">
+      <div class="section-header">
+        <div class="section-icon">🖼️</div>
+        <span class="section-title">Background</span>
+        <span class="section-count">4 entradas</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Función / Sub</th><th>Tipo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerBackgroundImageID(<span class="param">layer_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de imagen de RCBasic en el layer, o <code>-1</code> si no hay imagen.</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_SetLayerBackgroundImage(<span class="param">layer_index, image_id</span>)</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Establece una nueva imagen en el layer.<span class="note">El layer debe ser de tipo Canvas2D.</span></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Nirvana_GetLayerBackgroundRenderType(<span class="param">layer_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">
+                Retorna el tipo de renderizado de la imagen del layer.
+                <div class="values">
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_NORMAL</span>
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_STRETCHED</span>
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_TILED</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="fn-name sub">Nirvana_SetLayerBackgroundRenderType(<span class="param">layer_index, render_type</span>)</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">
+                Establece el tipo de renderizado de la imagen del layer.<span class="note">El layer debe ser de tipo Canvas2D.</span>
+                <div class="values">
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_NORMAL</span>
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_STRETCHED</span>
+                  <span class="val">NIRVANA_IMG_RENDER_SETTING_TILED</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TYPES -->
+    <section id="types" class="types-section">
+      <div class="section-header">
+        <div class="section-icon">🔷</div>
+        <span class="section-title">Types</span>
+        <span class="section-count">8 structs</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Miembros</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Vector2D</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim X</span><span class="dim">Dim Y</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Size2D</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Width</span><span class="dim">Dim Height</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Sprite</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Name$</span><span class="dim">Dim BaseName$</span><span class="dim">Dim Sprite_ID</span><span class="dim">Dim Animation_Name_Index</span><span class="dim">Dim Animation_Count</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_TileMap</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim TilesetName$</span><span class="dim">Dim Tileset_ID</span><span class="dim">Dim TileMap_ID</span><span class="dim">Dim Mask_Index</span><span class="dim">Dim Mask_Count</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Background</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Image_ID</span><span class="dim">Dim RenderSetting</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Shape</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Sprite_ID</span><span class="dim">Dim ShapeType</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Layer</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Name$</span><span class="dim">Dim LayerType</span><span class="dim">Dim Visible</span><span class="dim">Dim Alpha</span><span class="dim">Dim Scroll_Speed As Nirvana_Vector2D</span><span class="dim">Dim Ref_Canvas</span><span class="dim">Dim Layer_TileMap As Nirvana_TileMap</span><span class="dim">Dim Layer_Sprite_Count</span><span class="dim">Dim Layer_Shape_Count</span><span class="dim">Dim Bkg As Nirvana_Background</span></div></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name type">Nirvana_Stage</span></td>
+              <td class="desc"><div class="members"><span class="dim">Dim Active</span><span class="dim">Dim Name$</span><span class="dim">Dim Tile_Size As Nirvana_Size2D</span><span class="dim">Dim Stage_Size As Nirvana_Size2D</span><span class="dim">Dim Layer_Count</span><span class="dim">Dim Viewport_Size As Nirvana_Size2D</span><span class="dim">Dim Stage_Offset As Nirvana_Vector2D</span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  © 2026 Rodney Cunningham (n00b) · RCBasic Documentation · Nirvana2D Editor API
+</footer>
+
+</body>
+</html>

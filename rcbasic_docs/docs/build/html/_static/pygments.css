@@ -1,0 +1,198 @@
+/* ============================================================
+   PYGMENTS SYNTAX HIGHLIGHTING — STYLESHEET
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   COLOR TOKENS
+   Cambia un color aquí y se actualiza en todo el archivo.
+   ------------------------------------------------------------ */
+
+:root {
+    --color-comment:  #6e716e;
+    --color-keyword:  #6084a8;
+    --color-key:      #258bff;
+    --color-string:   #dd4040;
+    --color-number:   #0b9898;
+    --color-symbol:   #ffbb00;
+}
+
+
+/* ------------------------------------------------------------
+   RC CLASSES  (fuente de verdad — usan las variables)
+   ------------------------------------------------------------ */
+
+.rc_comment  { color: var(--color-comment); }
+.rc_keyword  { color: var(--color-keyword); font-weight: bold; }
+.rc_key      { color: var(--color-key); }
+.rc_string   { color: var(--color-string); }
+.rc_number   { color: var(--color-number); }
+.rc_symbol  { color: var(--color-symbol); }
+
+
+/* ------------------------------------------------------------
+   LINE NUMBERS
+   ------------------------------------------------------------ */
+
+pre {
+    line-height: 125%;
+}
+
+/* Normal line numbers */
+td.linenos .normal {
+    color: inherit;
+    background-color: transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+span.linenos {
+    color: inherit;
+    background-color: transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Special / highlighted line numbers */
+td.linenos .special {
+    color: #000000;
+    background-color: #ffffc0;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+span.linenos.special {
+    color: #000000;
+    background-color: #ffffc0;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+/* ------------------------------------------------------------
+   HIGHLIGHT BLOCK — BASE
+   ------------------------------------------------------------ */
+
+.highlight {
+    background: #f8f8f8;
+}
+
+.highlight .hll {
+    background-color: #ffffcc; /* Highlighted line */
+}
+
+
+/* ------------------------------------------------------------
+   COMMENTS  →  var(--color-comment)
+   ------------------------------------------------------------ */
+
+.highlight .c   { color: var(--color-comment); font-style: italic; } /* Comment */
+.highlight .ch  { color: var(--color-comment); font-style: italic; } /* Comment.Hashbang */
+.highlight .cm  { color: var(--color-comment); font-style: italic; } /* Comment.Multiline */
+.highlight .cpf { color: var(--color-comment); font-style: italic; } /* Comment.PreprocFile */
+.highlight .c1  { color: var(--color-comment); font-style: italic; } /* Comment.Single */
+.highlight .cs  { color: var(--color-comment); font-style: italic; } /* Comment.Special */
+.highlight .cp  { color: var(--color-comment); }                     /* Comment.Preproc */
+
+
+/* ------------------------------------------------------------
+   KEYWORDS  →  var(--color-keyword)
+   ------------------------------------------------------------ */
+
+.highlight .k  { color: var(--color-keyword); font-weight: bold; } /* Keyword */
+.highlight .kc { color: var(--color-keyword); font-weight: bold; } /* Keyword.Constant */
+.highlight .kd { color: var(--color-keyword); font-weight: bold; } /* Keyword.Declaration */
+.highlight .kn { color: var(--color-keyword); font-weight: bold; } /* Keyword.Namespace */
+.highlight .kr { color: var(--color-keyword); font-weight: bold; } /* Keyword.Reserved */
+.highlight .kp { color: var(--color-keyword); }                    /* Keyword.Pseudo */
+.highlight .kt { color: var(--color-keyword); }                    /* Keyword.Type */
+
+
+/* ------------------------------------------------------------
+   NAMES  →  var(--color-key)
+   ------------------------------------------------------------ */
+
+.highlight .nb { color: var(--color-key); }                     /* Name.Builtin */
+.highlight .bp { color: var(--color-key); }                     /* Name.Builtin.Pseudo */
+.highlight .nc { color: var(--color-key); font-weight: bold; }  /* Name.Class */
+.highlight .nn { color: var(--color-key); font-weight: bold; }  /* Name.Namespace */
+.highlight .nf { color: var(--color-key); }                     /* Name.Function */
+.highlight .fm { color: var(--color-key); }                     /* Name.Function.Magic */
+.highlight .no { color: var(--color-key); }                     /* Name.Constant */
+.highlight .nd { color: var(--color-key); }                     /* Name.Decorator */
+.highlight .ni { color: var(--color-key); font-weight: bold; }  /* Name.Entity */
+.highlight .ne { color: var(--color-key); font-weight: bold; }  /* Name.Exception */
+.highlight .nl { color: var(--color-key); }                     /* Name.Label */
+.highlight .na { color: var(--color-key); }                     /* Name.Attribute */
+.highlight .nt { color: var(--color-key); font-weight: bold; }  /* Name.Tag */
+.highlight .nv { color: var(--color-key); }                     /* Name.Variable */
+.highlight .vc { color: var(--color-key); }                     /* Name.Variable.Class */
+.highlight .vg { color: var(--color-key); }                     /* Name.Variable.Global */
+.highlight .vi { color: var(--color-key); }                     /* Name.Variable.Instance */
+.highlight .vm { color: var(--color-key); }                     /* Name.Variable.Magic */
+
+
+/* ------------------------------------------------------------
+   LITERALS — STRINGS  →  var(--color-string)
+   ------------------------------------------------------------ */
+
+.highlight .s  { color: var(--color-string); }                     /* Literal.String */
+.highlight .sa { color: var(--color-string); }                     /* Literal.String.Affix */
+.highlight .sb { color: var(--color-string); }                     /* Literal.String.Backtick */
+.highlight .sc { color: var(--color-string); }                     /* Literal.String.Char */
+.highlight .dl { color: var(--color-string); }                     /* Literal.String.Delimiter */
+.highlight .sd { color: var(--color-string); font-style: italic; } /* Literal.String.Doc */
+.highlight .s2 { color: var(--color-string); }                     /* Literal.String.Double */
+.highlight .sh { color: var(--color-string); }                     /* Literal.String.Heredoc */
+.highlight .s1 { color: var(--color-string); }                     /* Literal.String.Single */
+.highlight .sx { color: var(--color-string); }                     /* Literal.String.Other */
+.highlight .sr { color: var(--color-string); }                     /* Literal.String.Regex */
+.highlight .si { color: var(--color-string); font-weight: bold; }  /* Literal.String.Interpol */
+.highlight .se { color: var(--color-string); font-weight: bold; }  /* Literal.String.Escape */
+.highlight .ss { color: var(--color-string); }                     /* Literal.String.Symbol */
+
+
+/* ------------------------------------------------------------
+   LITERALS — NUMBERS  →  var(--color-number)
+   ------------------------------------------------------------ */
+
+.highlight .m  { color: var(--color-number); } /* Literal.Number */
+.highlight .mb { color: var(--color-number); } /* Literal.Number.Bin */
+.highlight .mf { color: var(--color-number); } /* Literal.Number.Float */
+.highlight .mh { color: var(--color-number); } /* Literal.Number.Hex */
+.highlight .mi { color: var(--color-number); } /* Literal.Number.Integer */
+.highlight .mo { color: var(--color-number); } /* Literal.Number.Oct */
+.highlight .il { color: var(--color-number); } /* Literal.Number.Integer.Long */
+
+
+/* ------------------------------------------------------------
+   OPERATORS  →  var(--color-symbol)
+   ------------------------------------------------------------ */
+
+.highlight .o  { color: var(--color-symbol); }                    /* Operator */
+.highlight .ow { color: var(--color-symbol); font-weight: bold; } /* Operator.Word */
+
+
+/* ------------------------------------------------------------
+   GENERIC (diffs, terminal output, headings…)
+   ------------------------------------------------------------ */
+
+.highlight .gd { color: #A00000; }                     /* Generic.Deleted */
+.highlight .gi { color: #008400; }                     /* Generic.Inserted */
+.highlight .gr { color: #E40000; }                     /* Generic.Error */
+.highlight .gt { color: #0044DD; }                     /* Generic.Traceback */
+.highlight .go { color: #717171; }                     /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold; }  /* Generic.Prompt */
+.highlight .gh { color: #000080; font-weight: bold; }  /* Generic.Heading */
+.highlight .gu { color: #800080; font-weight: bold; }  /* Generic.Subheading */
+.highlight .ge { font-style: italic; }                 /* Generic.Emph */
+.highlight .gs { font-weight: bold; }                  /* Generic.Strong */
+.highlight .ges { font-weight: bold; font-style: italic; } /* Generic.EmphStrong */
+
+
+/* ------------------------------------------------------------
+   MISC
+   ------------------------------------------------------------ */
+
+.highlight .err { border: 1px solid #FF0000; } /* Error */
+.highlight .w   { color: #bbbbbb; }            /* Text.Whitespace */

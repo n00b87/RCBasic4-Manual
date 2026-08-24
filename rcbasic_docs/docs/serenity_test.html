@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenity3D — API Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0c10;
+    --surface:   #111318;
+    --surface2:  #181c23;
+    --border:    rgba(255,255,255,0.07);
+    --border2:   rgba(255,255,255,0.12);
+    --accent:    #6ee7ff;
+    --accent2:   #a78bfa;
+    --accent3:   #34d399;
+    --text:      #e8eaf0;
+    --muted:     #6b7280;
+    --fn-bg:     rgba(110,231,255,0.08);
+    --fn-color:  #6ee7ff;
+    --sub-bg:    rgba(52,211,153,0.08);
+    --sub-color: #34d399;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 1;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(110,231,255,0.04) 0%, transparent 100%);
+    display: flex; flex-direction: column; align-items: flex-start;
+    max-width: 1100px; margin: 0 auto;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent);
+    background: var(--fn-bg);
+    border: 1px solid rgba(110,231,255,0.2);
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .subtitle {
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 1rem; font-weight: 400;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  .stats {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-n {
+    font-size: 1.6rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  nav.sidebar {
+    position: sticky; top: 2rem;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .nav-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0 8px; margin-bottom: 6px; margin-top: 1rem;
+  }
+  .nav-label:first-child { margin-top: 0; }
+
+  nav.sidebar a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 8px;
+    color: var(--muted); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+  }
+  nav.sidebar a:hover {
+    color: var(--text);
+    background: var(--surface2);
+    border-color: var(--border2);
+  }
+  nav.sidebar a .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; opacity: 0.4; flex-shrink: 0;
+  }
+  nav.sidebar a:hover .dot { opacity: 1; }
+
+  /* ── MAIN ── */
+  main { display: flex; flex-direction: column; gap: 3rem; }
+
+  /* ── SECTION ── */
+  section {
+    animation: fadeUp 0.5s ease both;
+  }
+  section:nth-child(1) { animation-delay: 0.05s; }
+  section:nth-child(2) { animation-delay: 0.1s; }
+  section:nth-child(3) { animation-delay: 0.15s; }
+  section:nth-child(4) { animation-delay: 0.2s; }
+  section:nth-child(5) { animation-delay: 0.25s; }
+  section:nth-child(6) { animation-delay: 0.3s; }
+  section:nth-child(7) { animation-delay: 0.35s; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .section-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .section-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 20px;
+  }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  thead {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  th:first-child { width: 38%; }
+  th:nth-child(2) { width: 10%; }
+
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr { transition: background 0.15s; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* function name */
+  .fn-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; font-weight: 500;
+    color: var(--accent);
+    word-break: break-word;
+  }
+  .fn-name .param {
+    color: var(--accent2);
+  }
+
+  /* badge */
+  .badge {
+    display: inline-flex; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-fn  { background: var(--fn-bg);  color: var(--fn-color);  border: 1px solid rgba(110,231,255,0.2); }
+  .badge-sub { background: var(--sub-bg); color: var(--sub-color); border: 1px solid rgba(52,211,153,0.2); }
+
+  /* description */
+  .desc { color: #9ca3af; line-height: 1.55; }
+  .desc code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--border2);
+    padding: 1px 5px; border-radius: 4px;
+    color: var(--text);
+  }
+
+  /* section accent lines */
+  .sky-section    .section-icon { background: rgba(110,231,255,0.12); }
+  .stage-section  .section-icon { background: rgba(167,139,250,0.12); }
+  .actor-section  .section-icon { background: rgba(251,191,36,0.12);  }
+  .group-section  .section-icon { background: rgba(52,211,153,0.12);  }
+  .mat-section    .section-icon { background: rgba(249,115,22,0.12);  }
+  .mesh-section   .section-icon { background: rgba(236,72,153,0.12);  }
+  .tex-section    .section-icon { background: rgba(110,231,255,0.12); }
+
+  .sky-section    .section-title { color: var(--accent); }
+  .stage-section  .section-title { color: var(--accent2); }
+  .actor-section  .section-title { color: #fbbf24; }
+  .group-section  .section-title { color: var(--accent3); }
+  .mat-section    .section-title { color: #f97316; }
+  .mesh-section   .section-title { color: #ec4899; }
+  .tex-section    .section-title { color: var(--accent); }
+
+  /* values list */
+  .values {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+  }
+  .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border2);
+    padding: 1px 7px; border-radius: 4px;
+    color: #c4b5fd;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; }
+    nav.sidebar { display: none; }
+    header { padding: 2.5rem 1.2rem 2rem; }
+    .container { padding: 2rem 1.2rem 4rem; }
+    .stats { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="tag">RCBasic · Level Editors</span>
+  <h1>Serenity3D<br>API Reference</h1>
+  <p class="subtitle">Accede a escenas 3D creadas visualmente en el editor, directamente desde código RCBasic.</p>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-n">7</span>
+      <span class="stat-l">Secciones</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">38</span>
+      <span class="stat-l">Funciones</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">2</span>
+      <span class="stat-l">Subroutines</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <span class="nav-label">Secciones</span>
+    <a href="#sky"><span class="dot"></span>Sky</a>
+    <a href="#stages"><span class="dot"></span>Stages</a>
+    <a href="#actors"><span class="dot"></span>Actors</a>
+    <a href="#groups"><span class="dot"></span>Groups</a>
+    <a href="#materials"><span class="dot"></span>Materials</a>
+    <a href="#meshes"><span class="dot"></span>Meshes</a>
+    <a href="#textures"><span class="dot"></span>Textures</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- SKY -->
+    <section id="sky" class="sky-section">
+      <div class="section-header">
+        <div class="section-icon">🌌</div>
+        <span class="section-title">Sky</span>
+        <span class="section-count">4 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetSkyShape()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">
+                Retorna el tipo de cielo del stage actual.
+                <div class="values">
+                  <span class="val">SN_SKY_TYPE_NONE</span>
+                  <span class="val">SN_SKY_TYPE_BOX</span>
+                  <span class="val">SN_SKY_TYPE_DOME</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetSkyBox()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el sky box del stage actual como <code>Serenity_Sky_Box</code></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetSkyDome()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el sky dome del stage actual como <code>Serenity_Sky_Dome</code></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_StageHasSky()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna <code>TRUE</code> si el stage tiene un objeto de cielo, <code>FALSE</code> en caso contrario</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- STAGES -->
+    <section id="stages" class="stage-section">
+      <div class="section-header">
+        <div class="section-icon">🗺️</div>
+        <span class="section-title">Stages</span>
+        <span class="section-count">6 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetStageIndex(<span class="param">stage_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del stage, o <code>-1</code> si el nombre no existe en el proyecto</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetStageName$(<span class="param">stage_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del stage correspondiente al índice dado</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetStageCount()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número total de stages en el proyecto</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_ClearStage()</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Limpia el stage actualmente cargado</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_LoadStage(<span class="param">stage_name$</span>)</span></td>
+              <td><span class="badge badge-sub">Sub</span></td>
+              <td class="desc">Carga un stage por nombre. Se recomienda verificar el índice primero con <code>Serenity_GetStageIndex</code></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetCurrentStageIndex()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del stage cargado actualmente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ACTORS -->
+    <section id="actors" class="actor-section">
+      <div class="section-header">
+        <div class="section-icon">🎭</div>
+        <span class="section-title">Actors</span>
+        <span class="section-count">11 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorIndex(<span class="param">actor_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity del actor, usado para acceder a sus datos en la API</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorCount()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número de actores creados en Serenity3D presentes en el stage actual</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorID(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de actor de RCBasic</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorName$(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del actor según su índice Serenity</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorType(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">
+                Retorna el tipo de actor.
+                <div class="values">
+                  <span class="val">SN_ACTOR_TYPE_ANIMATED</span>
+                  <span class="val">SN_ACTOR_TYPE_OCTREE</span>
+                  <span class="val">SN_ACTOR_TYPE_LIGHT</span>
+                  <span class="val">SN_ACTOR_TYPE_BILLBOARD</span>
+                  <span class="val">SN_ACTOR_TYPE_TERRAIN</span>
+                  <span class="val">SN_ACTOR_TYPE_WATER</span>
+                  <span class="val">SN_ACTOR_TYPE_PARTICLE</span>
+                  <span class="val">SN_ACTOR_TYPE_CUBE</span>
+                  <span class="val">SN_ACTOR_TYPE_SPHERE</span>
+                  <span class="val">SN_ACTOR_TYPE_PLANE</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorMeshIndex(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice de mesh Serenity del que fue creado el actor</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorOverrideMaterialIndex(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del material de override configurado en el Stage Editor del actor</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorTerrainHeightMap$(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el archivo de heightmap para un actor de tipo terrain</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorCubeSize(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el tamaño del cubo para un actor de tipo cube</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorSphereRadius(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el radio de la esfera para un actor de tipo sphere</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetActorGroupIndex(<span class="param">actor_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del grupo al que pertenece el actor, o <code>-1</code> si no está en ningún grupo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GROUPS -->
+    <section id="groups" class="group-section">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <span class="section-title">Groups</span>
+        <span class="section-count">3 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetGroupCount()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número de grupos en el stage actual</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetGroupIndex(<span class="param">group_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del grupo, o <code>-1</code> si el grupo no existe en el stage actual</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetGroupName$(<span class="param">group_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del grupo correspondiente al índice dado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MATERIALS -->
+    <section id="materials" class="mat-section">
+      <div class="section-header">
+        <div class="section-icon">🎨</div>
+        <span class="section-title">Materials</span>
+        <span class="section-count">3 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMaterialIndex(<span class="param">material_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity del material, usado para acceder a sus datos en la API</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMaterialID(<span class="param">material_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de material de RCBasic, o <code>-1</code> si el índice no es válido</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMaterialTextureIndex(<span class="param">material_index, texture_level</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity de la textura en el nivel de textura indicado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MESHES -->
+    <section id="meshes" class="mesh-section">
+      <div class="section-header">
+        <div class="section-icon">🔷</div>
+        <span class="section-title">Meshes</span>
+        <span class="section-count">15 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetAN8Count()</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número de objetos Anim8or cargados con el stage actual</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetAN8ID(<span class="param">an8_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de Anim8or de RCBasic. El índice debe ir de <code>0</code> a <code>Serenity_GetAN8Count()-1</code></td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshIndex(<span class="param">mesh_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity del mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshID(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de mesh de RCBasic, o <code>-1</code> si el índice no es válido</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshName$(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del mesh según el índice dado</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshType(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">
+                Retorna el tipo del mesh.
+                <div class="values">
+                  <span class="val">SN_MESH_TYPE_NORMAL</span>
+                  <span class="val">SN_MESH_TYPE_ZIPPED</span>
+                  <span class="val">SN_MESH_TYPE_AN8_SCENE</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshAN8Index(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice del objeto Anim8or asociado al mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshAN8Scene$(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre de la escena en Anim8or de la que se carga el mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshArchiveName$(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del archivo de archivo comprimido <code>.pak</code> del que se carga el mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshFile$(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del archivo de mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshMaterialCount(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número de materiales en el mesh dado</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshMaterialIndex(<span class="param">mesh_index, material_num</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity del material según su número en el mesh</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshAnimationCount(<span class="param">mesh_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el número de animaciones del mesh dado</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshAnimationID(<span class="param">mesh_index, animation_num</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de animación de mesh de RCBasic por número</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetMeshAnimationIDByName(<span class="param">mesh_index, animation_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de animación de mesh de RCBasic por nombre</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TEXTURES -->
+    <section id="textures" class="tex-section">
+      <div class="section-header">
+        <div class="section-icon">🖼️</div>
+        <span class="section-title">Textures</span>
+        <span class="section-count">5 funciones</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Función</th><th>Tipo</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fn-name">Serenity_GetTextureIndex(<span class="param">texture_name$</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el índice Serenity de la textura, usado para acceder a sus datos en la API</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetTextureID(<span class="param">texture_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el ID de textura de RCBasic, o <code>-1</code> si el índice no es válido</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetTextureFile$(<span class="param">texture_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el nombre del archivo de textura</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetTextureColorKey(<span class="param">texture_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna el color key de la textura</td>
+            </tr>
+            <tr>
+              <td><span class="fn-name">Serenity_GetTextureIsColorKey(<span class="param">texture_index</span>)</span></td>
+              <td><span class="badge badge-fn">Function</span></td>
+              <td class="desc">Retorna <code>TRUE</code> si la bandera de color key fue activada en Serenity3D para esta textura</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  © 2026 Rodney Cunningham (n00b) · RCBasic Documentation · Serenity3D Editor API
+</footer>
+
+</body>
+</html>
