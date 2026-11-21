@@ -5,37 +5,37 @@
 
 // Definimos los dos sets de variables en un solo lugar (fácil de mantener)
 const TEMA_OSCURO = {
-  '--bg-page':              '#1E2637',
-  '--bg-sidebar':           '#0E121A',
+  '--bg-page':              '#09090b',
+  '--bg-sidebar':           '#0e0e11',
   '--bg-content':           'transparent',
-  '--bg-code':              '#2d3335',
-  '--bg-table-head':        '#0a1628',
-  '--bg-table-odd':         '#0c1a2e',
-  '--bg-nav-search':        '#0E121A',
-  '--bg-nav-top':           '#020617',
+  '--bg-code':              '#0f1115',
+  '--bg-table-head':        '#15151a',
+  '--bg-table-odd':         '#0e0e11',
+  '--bg-nav-search':        '#0e0e11',
+  '--bg-nav-top':           '#09090b',
   '--bg-versions':          '#010409',
   '--bg-versions-cur':      '#020c1a',
 
-  '--text-body':            '#EEF1F6',
-  '--text-muted':           '#98A8C7',
-  '--text-heading':         'white',
-  '--text-sidebar':         '#EEF1F6',
+  '--text-body':            '#c9c9d1',
+  '--text-muted':           '#8b8b94',
+  '--text-heading':         '#fafafa',
+  '--text-sidebar':         '#c9c9d1',
   '--text-code':            'white',
   '--text-footer':          '#94a3b8',
 
-  '--accent':               '#2563EB',
-  '--accent-hover':         '#1D4ED8',
+  '--accent':               '#7c9dff',
+  '--accent-hover':         '#a5bbff',
   '--accent-visited':       '#4338CA',
   '--accent-active':        '#B6B6B6',
   '--accent-text':          '#0D0D0D',
 
-  '--border':               'gray',
-  '--border-button-theme':  'white',
-  '--border-table':         'blue',
+  '--border':               '#232327',
+  '--border-button-theme':  '#232327',
+  '--border-table':         '#232327',
 
-  '--sidebar-active-bg':    '#0D0D0D',
-  '--sidebar-active-text':  'white',
-  '--sidebar-hover-bg':     '#141924',
+  '--sidebar-active-bg':    '#1a1d2b',
+  '--sidebar-active-text':  '#cfdcff',
+  '--sidebar-hover-bg':     '#15151a',
 
   '--scroll-bg':            '#080b0f',
   '--scroll-hover':         '#7B8FB8',
@@ -64,23 +64,23 @@ const TEMA_OSCURO = {
 
 const TEMA_CLARO = {
   // Fondos generales
-  '--bg-page':              '#FFFFFF',
-  '--bg-sidebar':           '#F3F4F6',
+  '--bg-page':              '#fafaf8',
+  '--bg-sidebar':           '#f4f4f0',
   '--bg-content':           '#FFFFFF',
-  '--bg-code':              '#2d3335',
+  '--bg-code':              '#0f1115',
   '--bg-code-inline':       'transparent',
-  '--bg-table-head':        '#F1F5F9',
-  '--bg-table-odd':         '#F9FAFB',
-  '--bg-nav-search':        '#F3F4F6',
-  '--bg-nav-top':           '#FFFFFF',
+  '--bg-table-head':        '#f0f0eb',
+  '--bg-table-odd':         '#fafaf8',
+  '--bg-nav-search':        '#f4f4f0',
+  '--bg-nav-top':           '#fafaf8',
   '--bg-versions':          '#F3F4F6',
   '--bg-versions-cur':      '#E5E7EB',
 
   // Textos
-  '--text-body':            '#1F2937',
-  '--text-muted':           '#6B7280',
-  '--text-heading':         '#0D0D0D',
-  '--text-sidebar':         '#374151',
+  '--text-body':            '#3c3c44',
+  '--text-muted':           '#6b6b73',
+  '--text-heading':         '#16161a',
+  '--text-sidebar':         '#3c3c44',
   '--text-code':            'white',
   '--text-footer':          '#9CA3AF',
 
@@ -89,21 +89,21 @@ const TEMA_CLARO = {
   '--btn-border':           '#868686',
 
   // Acentos
-  '--accent':               '#2563EB',
-  '--accent-hover':         '#1D4ED8',
+  '--accent':               '#2f5bea',
+  '--accent-hover':         '#1e44c4',
   '--accent-visited':       '#4338CA',
   '--accent-active':        '#1E40AF',
   '--accent-text':          '#FFFFFF',
 
   // Bordes
-  '--border':               '#D1D5DB',
-  '--border-button-theme':  '#2563EB',
-  '--border-table':         '#E5E7EB',
+  '--border':               '#e7e6e1',
+  '--border-button-theme':  '#e7e6e1',
+  '--border-table':         '#e7e6e1',
 
   // Sidebar
-  '--sidebar-active-bg':    '#E0E7FF',
-  '--sidebar-active-text':  '#1E3A8A',
-  '--sidebar-hover-bg':     '#E5E7EB',
+  '--sidebar-active-bg':    '#e8edff',
+  '--sidebar-active-text':  '#1e3a8a',
+  '--sidebar-hover-bg':     '#ecece7',
 
   // Scrollbar
   '--scroll-bg':            '#E5E7EB',
@@ -197,7 +197,7 @@ function cambiarTema(esClaro) {
 
 // Función global para poder usarla con onclick="change_theme(this)" en el HTML
 function change_theme(btn) {
-  const esClaroActual = localStorage.getItem('tema-claro') === '1';
+  const esClaroActual = localStorage.getItem('tema-claro') !== '0';
   cambiarTema(!esClaroActual); // invierte el estado actual
 }
 
@@ -206,11 +206,11 @@ function change_theme(btn) {
 // existe desde el principio, así que evitamos el "parpadeo" del tema
 // incorrecto al cargar la página.
 aplicarVariables(
-  (localStorage.getItem('tema-claro') === '1') ? TEMA_CLARO : TEMA_OSCURO
+  (localStorage.getItem('tema-claro') !== '0') ? TEMA_CLARO : TEMA_OSCURO
 );
 
 // ── PASO 2: actualizar el ícono del botón cuando el botón ya exista ──────
 document.addEventListener('DOMContentLoaded', () => {
-  const esClaro = localStorage.getItem('tema-claro') === '1';
+  const esClaro = localStorage.getItem('tema-claro') !== '0';
   actualizarIconoBoton(esClaro);
 });

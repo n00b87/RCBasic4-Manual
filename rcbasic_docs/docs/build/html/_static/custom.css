@@ -1,0 +1,79 @@
+/* ============================================================
+   custom.css - Rediseño minimalista de la documentación RCBasic
+   (este archivo estaba enlazado en TODAS las páginas pero NO existía -> 404)
+   Se apoya en las variables --bg-*, --text-*, --accent, --border que
+   theme_change.js define para el tema claro (por defecto) y oscuro.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+:root { --font-code: "JetBrains Mono", Consolas, monospace; }
+html { scroll-behavior: smooth; }
+body, .wy-body-for-nav { font-family: Inter, system-ui, sans-serif; background: var(--bg-page); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- SIDEBAR: limpia, con línea fina en vez de bloque oscuro ---------- */
+.wy-nav-side { background: var(--bg-sidebar); border-right: 1px solid var(--border); }
+.wy-side-nav-search { background: var(--bg-sidebar); padding: 18px 16px 12px; }
+.wy-side-nav-search img { width: 150px !important; height: auto !important; margin: 0 0 14px; } /* el logo estaba deformado (height:30% en línea) */
+.wy-side-nav-search input[type=text] { width: 100%; border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px; font: 14px Inter, sans-serif; background: var(--bg-page); color: var(--text-body); box-shadow: none; transition: border-color .2s; }
+.wy-side-nav-search input[type=text]:focus { border-color: var(--accent); outline: none; }
+.wy-menu-vertical p.caption { color: var(--text-muted); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; margin: 22px 0 6px; padding: 0 18px; }
+.wy-menu-vertical a { color: var(--text-sidebar); font-size: 14px; border-radius: 8px; margin: 1px 8px; padding: 5px 12px !important; transition: background .15s, color .15s; }
+.wy-menu-vertical a:hover { background: var(--sidebar-hover-bg); color: var(--text-heading); }
+.wy-menu-vertical li.current > a, .wy-menu-vertical li.toctree-l1.current > a { background: var(--sidebar-active-bg); color: var(--sidebar-active-text); font-weight: 600; border: 0; }
+.wy-menu-vertical li.current { background: transparent; }
+.wy-menu-vertical li ul li a { font-size: 13px; color: var(--text-muted); }
+
+/* ---------- CONTENIDO: columna de lectura de ~820px ---------- */
+.wy-nav-content { max-width: 880px; background: transparent; padding: 28px 40px 60px; }
+.wy-nav-content-wrap { background: var(--bg-page); }
+.wy-nav-top { background: var(--bg-nav-top); border-bottom: 1px solid var(--border); }
+.wy-breadcrumbs { font-size: 13px; color: var(--text-muted); }
+hr { border: 0; border-top: 1px solid var(--border); margin: 28px 0; }
+h1, h2, h3, h4 { font-family: Inter, sans-serif; color: var(--text-heading); letter-spacing: -.025em; font-weight: 650; }
+h1 { font-size: 36px; margin: 28px 0 18px; } h2 { font-size: 24px; margin-top: 44px; } h3 { font-size: 18px; }
+p, li { line-height: 1.75; }
+a { color: var(--accent); } a:hover { color: var(--accent-hover); }
+a.headerlink { color: var(--text-muted); opacity: 0; transition: opacity .2s; } :is(h1,h2,h3,dt):hover > a.headerlink { opacity: 1; }
+code.literal, code.docutils { font-family: var(--font-code); font-size: .88em; padding: 2px 7px; border-radius: 6px; background: var(--bg-table-head); border: 1px solid var(--border); color: var(--text-heading); }
+
+/* ---------- FIRMAS DE FUNCIONES (Function OpenCanvas(...)) ---------- */
+dl.py > dt.sig, dl.py > dt.sig:hover { display: block !important; font-family: var(--font-code); font-size: 14px; padding: 10px 16px; margin: 36px 0 12px; background: var(--bg-table-head) !important; border: 1px solid var(--border) !important; border-left: 3px solid var(--accent) !important; border-radius: 8px !important; color: var(--text-heading) !important; }
+dl.py > dt.sig em, dl.py > dt.sig .sig-param { font-style: normal !important; color: var(--text-muted) !important; }
+dl.py > dt.sig span { color: inherit; }
+dl.py > dt.sig .sig-name, dl.py > dt.sig .sig-name span, dl.py > dt.sig .descname { color: var(--accent) !important; font-weight: 600; }
+dl.py > dt.sig .property, dl.py > dt.sig .property span { color: #c2410c !important; font-weight: 600; }
+dl.py > dd { margin: 0 0 12px 4px; }
+
+/* ---------- ADMONITIONS (See also, Note...) minimalistas ---------- */
+.admonition { border: 1px solid var(--border); border-left-width: 3px; border-radius: 10px; padding: 0; overflow: hidden; box-shadow: none; }
+.admonition .admonition-title { font-family: Inter, sans-serif; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 7px 14px; margin: 0; }
+.admonition > :not(.admonition-title) { margin-left: 14px; margin-right: 14px; } .admonition > p:last-child { margin-bottom: 12px; }
+
+/* ---------- TABLAS ---------- */
+table.docutils { width: 100%; border: 1px solid var(--border-table) !important; border-radius: 10px; border-collapse: separate; border-spacing: 0; overflow: hidden; font-size: 14px; }
+table.docutils th { background: var(--bg-table-head); color: var(--text-heading); font-weight: 600; text-align: left; }
+table.docutils td, table.docutils th { border: 0 !important; border-bottom: 1px solid var(--border-table) !important; padding: 9px 14px; }
+table.docutils tr:last-child td { border-bottom: 0 !important; }
+
+/* ---------- VISOR DE CÓDIGO (lo construye copy-code.js) ---------- */
+.highlight { background: transparent !important; border: 0 !important; padding: 0 !important; box-shadow: none !important; }
+.code-viewer { margin: 20px 0; border-radius: 12px; overflow: hidden; background: #0f1115; border: 1px solid #23262d; }
+.code-bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #15171c; border-bottom: 1px solid #23262d; font: 12px Inter, sans-serif; color: #8b8f99; }
+.code-dots { display: flex; gap: 6px; } .code-dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3d45; }
+.code-name { flex: 1; font-family: var(--font-code); }
+.code-viewer .copy-btn { position: static !important; display: inline-flex; align-items: center; gap: 6px; margin: 0 !important; padding: 4px 10px !important; background: transparent; color: #c5c8d0; border: 1px solid #23262d; border-radius: 8px; font: 500 12px Inter, sans-serif; cursor: pointer; }
+.code-viewer .copy-btn:hover { background: #20232a; color: #fff; } .code-viewer .copy-btn.done { color: #6ee7a8; border-color: #2d6a4a; }
+.code-viewer .copy-btn img { opacity: .85; }
+.code-viewer pre { margin: 0 !important; padding: 14px 0 !important; background: transparent !important; border: 0 !important; border-radius: 0; overflow: auto; max-height: 520px; font: 13.5px/1.7 var(--font-code); color: #e4e6eb; counter-reset: ln; }
+.code-viewer pre > div { min-width: max-content; }
+.code-line { display: block; padding-right: 18px; } .code-line:hover { background: rgba(255,255,255,.04); }
+.code-line::before { counter-increment: ln; content: counter(ln); display: inline-block; width: 3em; padding-right: 1em; text-align: right; color: #50545e; user-select: none; }
+.rc_number { color: #5eead4; } .rc_string { color: #fca5a5; } .rc_keyword { color: #8ab4ff; font-weight: 600; }
+.rc_comment { color: #6b7280; font-style: italic; } .rc_symbol { color: #fbbf24; } .rc_key { color: #c4b5fd; }
+
+/* ---------- BOTÓN DE TEMA + FOOTER ---------- */
+.change-theme { position: fixed; top: 14px; right: 18px; z-index: 50; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border) !important; background: var(--bg-page) !important; cursor: pointer; display: grid; place-items: center; padding: 0; transition: transform .2s; }
+.change-theme:hover { transform: rotate(15deg); } .change-theme img { width: 20px !important; height: 20px !important; }
+footer { color: var(--text-footer); font-size: 13px; }
+@media (max-width: 768px) { .wy-nav-content { padding: 20px 18px 50px; } h1 { font-size: 28px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
