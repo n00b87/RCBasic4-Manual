@@ -8,13 +8,15 @@
 <title>Download | RCBasic</title>
 
 <link rel="stylesheet" href="../css file/style-download.css">
+<link rel="icon" type="image/png" href="../assets/icon/rcbasic.png"> <!-- faltaba el favicon -->
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 
 <body>
 
+<!-- CABECERA -->
 <header class="header">
 
 <div class="nav-container">
@@ -25,6 +27,7 @@
 
 <nav class="nav">
 <a href="home.html">Home</a>
+<a href="examples.html">Examples</a>
 <a href="../rcbasic_docs/docs/build/html/index.html">Docs</a>
 <a href="https://rcbasic.freeforums.net/">Community</a>
 </nav>
@@ -48,20 +51,21 @@
 
 <div class="preview">
 
-<img src="../assets/images/act.png" class="box-image">
+<img src="../assets/images/act.png" class="box-image" alt="RCBasic Studio">
 
 </div>
 
 
 <!-- DOWNLOAD -->
 
+<!-- DESCARGA: botones por plataforma + notas de la versión -->
 <main class="container-body">
 
 <h2>Latest Version</h2>
 
-<div class="download-box">
+<div class="download-panel">
 
-<h3>RCBasic Studio v4.9</h3>
+<h3>RCBasic Studio v4.12</h3>
 
 <p>
 Download the latest stable version of RCBasic Studio and start
@@ -70,38 +74,39 @@ creating games and applications today.
 
 <br>
 <div class="download-buttons" style="display: flex; justify-content: center;">
-<a class="download-btn windows" href="../downloades/RCBasic_v49_Win64.zip" download>
-<img src="../assets/icon/windows.png">
+<a class="download-btn windows" href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released" target="_blank" rel="noopener">
+<img src="../assets/icon/windows.png" alt="">
 <span>Download for Windows</span></a>
 
-<a class="download-btn linux" href="../downloades/RCBasic_v49_Linux.tar.xz" download>
-<img src="../assets/icon/linux-platform.png">
+<a class="download-btn linux" href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released" target="_blank" rel="noopener">
+<img src="../assets/icon/linux-platform.png" alt="">
 <span>Download for Linux</span></a>
 
-<a class="download-btn android" href="../downloades/RCBasic_Android_v49_Dist.7z" download>
-<img src="../assets/icon/sdk_img.png">
+<a class="download-btn android" href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released" target="_blank" rel="noopener">
+<img src="../assets/icon/sdk_img.png" alt="">
 <span>Android Distributable</span></a>
 </div>
 <br>
 
 <div class="release-notes">
-<p>RCBasic v4.9 fixes a few bugs and adds a few new function.</p>
-<h4>New Functions</h4>
-
-<ul><li>
-GetSpriteCollision() - This function was planned to be added a few releases ago but I was so focused on the 3D stuff that I forgot.</li><li>
-SetCanvasBackgroundRender() - This function will enable or disable rendering a canvas when it is not visible.</li></ul>
-
+<p>RCBasic v4.12 fixes a few bugs and makes significant improvements to Nirvana2D and Serenity3D.</p>
+<h4>Improvements</h4>
+<ul>
+<li>UNDO/REDO support in Nirvana2D and Serenity3D.</li>
+<li>Full GPU acceleration for all the viewports in Nirvana2D.</li>
+<li>Menus with a recent project list in Nirvana2D and Serenity3D.</li>
+<li>Rearranged panels in the Serenity3D mesh editor.</li>
+<li>Slight speed boost to sprite rendering (noticeable with 1,000+ sprites).</li>
+</ul>
 <h4>Bug Fixes</h4>
-
-<ul><li>
-SetSpriteVisible() is now working properly.</li><li>
-Internal material recycles will no longer cause crashes.</li><li>
-Distance Joint and Pulley Joint now use local coordinates.</li></ul>
-
+<ul>
+<li>Mouse input is ignored when Nirvana2D or Serenity3D are inactive.</li>
+<li>ClearScene() now clears 3D primitives drawn in the scene.</li>
+<li>Fixed a minor issue in Triangle().</li>
+</ul>
 <h4>More versions</h4>
 
-<a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1507777/rcbasic-v49-released"><img src="../assets/icon/itch.png" width=50 height=50 style="border-radius: 25%;"></a>
+<a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games"><img src="../assets/icon/itch.png" width="50" height="50" style="border-radius: 25%;" alt="RCBasic en itch.io"></a>
 </div>
 </div>
 </main>

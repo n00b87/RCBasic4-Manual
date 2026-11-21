@@ -1,37 +1,27 @@
-const search = document.getElementById("searchDocs")
-const details = document.querySelectorAll(".sidebar details")
+/* ============================================================
+   search_engine.js - Buscador del menú lateral de la documentación
+   Filtra los enlaces de cada <details> según lo escrito.
+   ============================================================ */
+const search  = document.getElementById("searchDocs");
+const details = document.querySelectorAll(".sidebar details");
 
-search.addEventListener("keyup", function(){
+// Antes fallaba con "Cannot read properties of null" en páginas sin buscador
+if (search) {
+  // 'input' también detecta pegar texto o borrar con el ratón (keyup no)
+  search.addEventListener("input", function () {
+    const value = this.value.trim().toLowerCase();
 
-let value = this.value.toLowerCase()
+    details.forEach(section => {
+      let matchFound = false;
 
-details.forEach(section => {
+      section.querySelectorAll("a").forEach(link => {
+        const visible = link.textContent.toLowerCase().includes(value);
+        link.style.display = visible ? "block" : "none";
+        if (visible) matchFound = true;
+      });
 
-let links = section.querySelectorAll("a")
-let matchFound = false
-
-links.forEach(link => {
-
-let text = link.textContent.toLowerCase()
-
-if(text.includes(value)){
-link.style.display = "block"
-matchFound = true
-}else{
-link.style.display = "none"
+      // abre la sección si tiene coincidencias (o si el buscador está vacío)
+      section.open = matchFound || value === "";
+    });
+  });
 }
-
-})
-
-/* abrir o cerrar el tree */
-
-if(matchFound || value === ""){
-section.open = true
-}else{
-section.open = false
-}
-
-})
-
-})
-

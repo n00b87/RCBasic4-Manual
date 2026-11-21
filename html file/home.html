@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- RCBasic home (v4.12). Archivo revisado y comentado. -->
 
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Home | RCBasic</title>
+    <meta name="description" content="RCBasic 4.12: lenguaje BASIC moderno para crear juegos 2D y 3D.">
 
     <link rel="stylesheet" href="../css file/style.css">
     <link rel="icon" type="image/png" href="../assets/icon/rcbasic.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-brands/css/uicons-brands.css'>
 
@@ -20,19 +22,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-    <script src="../js file/copy-code.js"></script>
+    <script src="../js file/copy-code.js" defer></script> <!-- botón copiar código -->
 
   </head>
 
   <body>
+    <a class="skip" href="#main">Skip to content</a> <!-- accesibilidad: saltar al contenido -->
 
+    <!-- CABECERA: logo + navegación principal -->
     <header class="header">
     <div class="nav-container">
     <div class="logo">
-    <img src="../assets/banner.png">
+    <a href="home.html"><img src="../assets/banner.png" alt="RCBasic"></a>
     </div>
     <nav class="nav">
-    <a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1547726/rcbasic-v410-released">Download</a>
+    <a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released">Download</a>
     <a href="examples.html">Examples</a>
     <a href="../rcbasic_docs/docs/build/html/index.html">Docs</a>
     <a href="https://rcbasic.freeforums.net/">Community</a>
@@ -40,90 +44,95 @@
     </div>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO: slider de capturas (script.js) + título y botones -->
     <section class="hero">
     <div class="slider">
     <div class="slides">
 
     <div class="slide active">
-    <img src="../assets/images/example4.png">
+    <img src="../assets/images/example4.png" alt="Captura de un juego hecho con RCBasic" loading="eager">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/example.png">
+    <img src="../assets/images/example.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/example3.png">
+    <img src="../assets/images/example3.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/round-5.png">
+    <img src="../assets/images/round-5.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/example2.png">
+    <img src="../assets/images/example2.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/example5.png">
+    <img src="../assets/images/example5.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/Sponza.png">
+    <img src="../assets/images/Sponza.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     <div class="slide">
-    <img src="../assets/images/Isometric Demo.png">
+    <img src="../assets/images/Isometric Demo.png" alt="Captura de un juego hecho con RCBasic" loading="lazy">
     </div>
 
     </div>
     </div>
 
     <div class="hero-content">
-    <h1>Welcome to the official RCBasic website</h1>
-    <p>Develop your 2D and 3D games.</p>
+    <h1>Make 2D &amp; 3D games with RCBASIC.</h1>
+    <p>RCBasic is a modern, open source BASIC for games. Simple to learn, fast to ship.</p>
     <div class="hero-buttons">
-    <a href="download.html" class="btn primary">Download the latest version</a>
+    <a href="download.html" class="btn primary">Download v4.12</a>
     <a href="../rcbasic_docs/docs/build/html/index.html" class="btn secondary">Documentation</a>
     </div>
     </div>
     </section>
 
-    <br>
-    <main class="container-body">
-    <a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1547726/rcbasic-v410-released" class="card">
-    <div class="align-img">
-        <!-- <img src="../assets/images/background.png" class="img-back"> -->
-    </div>
-    </a><br>
 
-    <!-- SECTION OF NEW'S -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="container-body" id="main">
+
+    <!-- NOTICIAS: última versión + videos de YouTube -->
     <h1 class="title-new">Latest news</h1>
-    <div class="news-container">
-      <div class="new-version-div">
-        <img src="../assets/images/img_rc.png" class="img-rc-new">
-        <h2>RCBasic 4.10 is the preferred choice.</h2>
-        <h4>Like any engine, RCBasic continues to grow and mature with each update; in RCBasic 4.10, you will find new features that facilitate 2D and 3D game development, thanks to the Nirvana2D and Serenity3D tools.</h4>
+
+    <!-- POSTER RCBasic 4.12: tarjeta de anuncio de la nueva versión (estilos en style.css, sección POSTER) -->
+    <section class="poster-wrap" aria-label="Anuncio de RCBasic 4.12">
+    <article class="poster">
+      <div class="poster-bg" style="background-image:url('../assets/images/Sponza.png')"></div>
+      <div class="poster-glow"></div>
+      <div class="poster-inner">
+        <span class="poster-badge">NEW RELEASE</span>
+        <h2 class="poster-title">RCBasic <em>4.12</em></h2>
+        <p class="poster-sub">Create 2D &amp; 3D games with BASIC. Now with Undo/Redo in Nirvana2D and Serenity3D.</p>
+        <ul class="poster-feats">
+          <li><b>01 · Undo / Redo</b><span>Nirvana2D &amp; Serenity3D</span></li>
+          <li><b>02 · GPU viewports</b><span>Full acceleration in Nirvana2D</span></li>
+          <li><b>03 · Recent projects</b><span>New menus in both editors</span></li>
+          <li><b>04 · Faster sprites</b><span>Boost with 1,000+ sprites</span></li>
+        </ul>
+        <div class="poster-cta">
+          <a class="btn primary" href="download.html">Download v4.12</a>
+          <a class="btn secondary" href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released" target="_blank" rel="noopener">Release notes</a>
+        </div>
+        <p class="poster-meta">Windows &middot; Linux &middot; Android &nbsp;|&nbsp; Free &amp; open source (zlib)</p>
       </div>
+    </article>
+    </section>
 
-      <div class="new-version-div2">
-      <a href="https://www.youtube.com/watch?v=bGbRNlWV-7M" target="_blank" class="yt-thumb">
-        <img src="https://img.youtube.com/vi/bGbRNlWV-7M/maxresdefault.jpg" alt="Ver video" width="150">
-        <div><h3>Introduction to RCBasic v4 graphics! <br><br></h3><p>In this video, we show you how to easily implement 2D and 3D graphics using code.</p></div>
-      </a>
-
-      <a href="https://www.youtube.com/watch?v=bj7m40XBl2A" target="_blank" class="yt-thumb">
-        <img src="https://img.youtube.com/vi/bj7m40XBl2A/maxresdefault.jpg" alt="Ver video" width="150">
-        <div><h3>Introduction to Serenity3D <br><br></h3><p>In this video, we show how to use Serenity3D.</p></div>
-      </a>
-
-      <a href="https://www.youtube.com/watch?v=J_GNcGp1Zmg" target="_blank" class="yt-thumb">
-        <img src="https://img.youtube.com/vi/J_GNcGp1Zmg/maxresdefault.jpg" alt="Ver video" width="150">
-        <div><h3>Introduction to Nirvana2D <br><br></h3><p>In this video, we show you how to easily implement 2D graphics.</p></div>
-      </a>
-    </div>
-    </div><br><br><br>
+    <!-- VIDEOS: lista de texto (se quitaron las miniaturas de YouTube) -->
+    <div class="video-list">
+    <h3>Watch &amp; learn</h3>
+    <a class="video-link" href="https://www.youtube.com/watch?v=bGbRNlWV-7M" target="_blank" rel="noopener"><span><b>Introduction to RCBasic v4 graphics</b><em>2D and 3D graphics using code.</em></span><i>↗</i></a>
+    <a class="video-link" href="https://www.youtube.com/watch?v=bj7m40XBl2A" target="_blank" rel="noopener"><span><b>Introduction to Serenity3D</b><em>How to use the 3D editor.</em></span><i>↗</i></a>
+    <a class="video-link" href="https://www.youtube.com/watch?v=J_GNcGp1Zmg" target="_blank" rel="noopener"><span><b>Introduction to Nirvana2D</b><em>How to use the 2D editor.</em></span><i>↗</i></a>
+    </div><br><br>
+    <!-- ACERCA DE -->
     <h1>About RCBasic</h1>
 
     <p>
@@ -133,7 +142,7 @@
     </p>
 
     <p>
-    With <strong>RCBasic v4.10</strong> developers can create desktop games,
+    With <strong>RCBasic v4.12</strong> developers can create desktop games,
     interactive applications, and multimedia programs with minimal setup.
     The language is beginner-friendly but powerful enough for advanced
     projects.
@@ -147,36 +156,61 @@
     <strong>2D</strong> and<strong> 3D</strong> games using simple commands.
     </p>
 
+    <!-- Accesos rápidos a la documentación -->
     <div class="icons-skill">
-    	<a href="../rcbasic_docs/docs/build/html/guides/graphics_intro.html"><img src="../assets/icon/2d.png"></a>
-    	<a href="../rcbasic_docs/docs/build/html/guides/graphics_3d.html"><img src="../assets/icon/3d.png"></a>
-    	<a href="../rcbasic_docs/docs/build/html/api/keyboard_mouse.html"><img src="../assets/icon/keyboard_mouse.png"></a>
-    	<a><img src="../assets/icon/compil.png"></a>
+    	<a href="../rcbasic_docs/docs/build/html/guides/graphics_intro.html"><img src="../assets/icon/2d.png" alt="Gráficos 2D"></a>
+    	<a href="../rcbasic_docs/docs/build/html/guides/graphics_3d.html"><img src="../assets/icon/3d.png" alt="Gráficos 3D"></a>
+    	<a href="../rcbasic_docs/docs/build/html/api/keyboard_mouse.html"><img src="../assets/icon/keyboard_mouse.png" alt="Teclado y ratón"></a>
+    	<a href="../rcbasic_docs/docs/build/html/index.html"><img src="../assets/icon/compil.png" alt="Compilación"></a>
     </div>
 
+    <!-- EJEMPLO DE CÓDIGO (resaltado con convert_code.py) -->
     <h2>Example Code</h2>
 
     <p>Simple example showing a 2D window in RCBasic that renders images and primitive graphics such as Rect, RectFill, Circle, CircleFill, etc.:</p>
 
-    </div>
-
-    <pre class="language-basic"><button class="copy-btn" onclick="copyCode(this)"><img src="../assets/icon/copy-icon.png" width="16" height="16"></button><code><span class='rc_keyword'>OpenWindow</span><span class='rc_symbol'>(</span><span class='rc_string'>"Example"</span><span class='rc_symbol'>,</span> <span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_key'>FALSE</span><span class='rc_symbol'>,</span> <span class='rc_key'>FALSE</span><span class='rc_symbol'>)</span><br><br>paint_canvas <span class='rc_symbol'>=</span> <span class='rc_keyword'>OpenCanvas</span><span class='rc_symbol'>(</span><span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_number'>1</span><span class='rc_symbol'>)</span><br><br><span class='rc_keyword'>Canvas</span><span class='rc_symbol'>(</span>canvas<span class='rc_symbol'>)</span><br><br><span class='rc_keyword'>Dim</span> x<span class='rc_symbol'>[</span><span class='rc_number'>3</span><span class='rc_symbol'>],</span> y<span class='rc_symbol'>[</span><span class='rc_number'>3</span><span class='rc_symbol'>]</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>0</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>50</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>0</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>50</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>1</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>1</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>2</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>10</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>1</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <br><br><span class='rc_keyword'>While</span> <span class='rc_keyword'>Key</span><span class='rc_symbol'>(</span><span class='rc_key'>K_ESCAPE</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>ClearCanvas</span><span class='rc_symbol'>()</span><br>  <span class='rc_keyword'>SetClearColor</span><span class='rc_symbol'>(</span><span class='rc_keyword'>RGB</span><span class='rc_symbol'>(</span><span class='rc_number'>255</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>))</span><br><br>  <span class='rc_comment'>' ----- [Draw] -----</span><br>  <span class='rc_keyword'>SetColor</span><span class='rc_symbol'>(</span><span class='rc_keyword'>RGB</span><span class='rc_symbol'>(</span><span class='rc_number'>255</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>))</span><br>  <span class='rc_keyword'>Rect</span><span class='rc_symbol'>(</span><span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>RectFill</span><span class='rc_symbol'>(</span><span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Circle</span><span class='rc_symbol'>(</span><span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>300</span><span class='rc_symbol'>,</span> <span class='rc_number'>5</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>CircleFill</span><span class='rc_symbol'>(</span><span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>300</span><span class='rc_symbol'>,</span> <span class='rc_number'>5</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Line</span><span class='rc_symbol'>(</span><span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Triangle</span><span class='rc_symbol'>(</span><span class='rc_number'>400</span><span class='rc_symbol'>,</span> <span class='rc_number'>500</span><span class='rc_symbol'>,</span> <span class='rc_number'>600</span><span class='rc_symbol'>,</span> <span class='rc_number'>700</span><span class='rc_symbol'>,</span> <span class='rc_number'>400</span><span class='rc_symbol'>,</span> <span class='rc_number'>500</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Poly</span><span class='rc_symbol'>(</span><span class='rc_number'>3</span><span class='rc_symbol'>,</span> x<span class='rc_symbol'>,</span> y<span class='rc_symbol'>)</span> <span class='rc_comment'>'Draws a triangle</span><br>  <br>    <br>  <span class='rc_comment'>' Update all shape</span><br>  <span class='rc_keyword'>Update</span><span class='rc_symbol'>()</span><br><span class='rc_keyword'>Wend</span></pre></code>
-    </div>
+    <pre class="language-basic"><button class="copy-btn" onclick="copyCode(this)"><img src="../assets/icon/copy-icon.png" width="16" height="16"></button><code><span class='rc_keyword'>OpenWindow</span><span class='rc_symbol'>(</span><span class='rc_string'>"Example"</span><span class='rc_symbol'>,</span> <span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_key'>FALSE</span><span class='rc_symbol'>,</span> <span class='rc_key'>FALSE</span><span class='rc_symbol'>)</span><br><br>paint_canvas <span class='rc_symbol'>=</span> <span class='rc_keyword'>OpenCanvas</span><span class='rc_symbol'>(</span><span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>640</span><span class='rc_symbol'>,</span> <span class='rc_number'>480</span><span class='rc_symbol'>,</span> <span class='rc_number'>1</span><span class='rc_symbol'>)</span><br><br><span class='rc_keyword'>Canvas</span><span class='rc_symbol'>(</span>paint_canvas<span class='rc_symbol'>)</span><br><br><span class='rc_keyword'>Dim</span> x<span class='rc_symbol'>[</span><span class='rc_number'>3</span><span class='rc_symbol'>],</span> y<span class='rc_symbol'>[</span><span class='rc_number'>3</span><span class='rc_symbol'>]</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>0</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>50</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>0</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>50</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>1</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>1</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <br>x<span class='rc_symbol'>[</span><span class='rc_number'>2</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>10</span> <span class='rc_symbol'>:</span> y<span class='rc_symbol'>[</span><span class='rc_number'>2</span><span class='rc_symbol'>]</span> <span class='rc_symbol'>=</span> <span class='rc_number'>90</span> <br><br><span class='rc_keyword'>While</span> <span class='rc_keyword'>Not</span> <span class='rc_keyword'>Key</span><span class='rc_symbol'>(</span><span class='rc_key'>K_ESCAPE</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>ClearCanvas</span><span class='rc_symbol'>()</span><br>  <span class='rc_keyword'>SetClearColor</span><span class='rc_symbol'>(</span><span class='rc_keyword'>RGB</span><span class='rc_symbol'>(</span><span class='rc_number'>255</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>))</span><br><br>  <span class='rc_comment'>' ----- [Draw] -----</span><br>  <span class='rc_keyword'>SetColor</span><span class='rc_symbol'>(</span><span class='rc_keyword'>RGB</span><span class='rc_symbol'>(</span><span class='rc_number'>255</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>0</span><span class='rc_symbol'>))</span><br>  <span class='rc_keyword'>Rect</span><span class='rc_symbol'>(</span><span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>RectFill</span><span class='rc_symbol'>(</span><span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>,</span> <span class='rc_number'>32</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Circle</span><span class='rc_symbol'>(</span><span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>300</span><span class='rc_symbol'>,</span> <span class='rc_number'>5</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>CircleFill</span><span class='rc_symbol'>(</span><span class='rc_number'>200</span><span class='rc_symbol'>,</span> <span class='rc_number'>300</span><span class='rc_symbol'>,</span> <span class='rc_number'>5</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Line</span><span class='rc_symbol'>(</span><span class='rc_number'>0</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>,</span> <span class='rc_number'>100</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Triangle</span><span class='rc_symbol'>(</span><span class='rc_number'>400</span><span class='rc_symbol'>,</span> <span class='rc_number'>300</span><span class='rc_symbol'>,</span> <span class='rc_number'>500</span><span class='rc_symbol'>,</span> <span class='rc_number'>400</span><span class='rc_symbol'>,</span> <span class='rc_number'>350</span><span class='rc_symbol'>,</span> <span class='rc_number'>400</span><span class='rc_symbol'>)</span><br>  <span class='rc_keyword'>Poly</span><span class='rc_symbol'>(</span><span class='rc_number'>3</span><span class='rc_symbol'>,</span> x<span class='rc_symbol'>,</span> y<span class='rc_symbol'>)</span> <span class='rc_comment'>'Draws a triangle</span><br>  <br>    <br>  <span class='rc_comment'>' Update all shape</span><br>  <span class='rc_keyword'>Update</span><span class='rc_symbol'>()</span><br><span class='rc_keyword'>Wend</span></code></pre>
 
     <br>
-    <h2>What’s New in RCBasic v4.10</h2>
-
+    <!-- NOVEDADES: notas oficiales de v4.12 (fuente: itch.io devlog) -->
+    <h2>What’s New in RCBasic v4.12</h2>
+    <h4>New features</h4>
     <ul>
-    <b>This release is mostly a bug fix release. Here is the list of changes.</b><br><br>
+    <li>Added UNDO/REDO support to Nirvana2D and Serenity3D.</li>
+    <li>Added full GPU acceleration to all the viewports in Nirvana2D.</li>
+    <li>Added menus to Nirvana2D and Serenity3D with a recent project list.</li>
+    <li>Rearranged the panels in the mesh editor in Serenity3D.</li>
+    <li>Slight speed boost to sprite rendering (noticeable with over 1,000 sprites).</li>
+    </ul>
+    <h4>Bug fixes</h4>
+    <ul>
+    <li>Mouse input is now ignored when Nirvana2D or Serenity3D are inactive.</li>
+    <li>ClearScene() now clears 3D primitives drawn in the scene.</li>
+    <li>Fixed a minor issue in the Triangle() function.</li>
+    </ul>
+    <details><summary>Previous release: v4.11</summary>
 
-    <li>RCBasic now has a debugger - It is pretty simple and only tracks if array indices are out of bounds, diving by zero errors, and arrays being dimensioned to 0  (these are probably 80% of issues most developers have)</li>
-    <li>Fixed the PreUpdate() function causing crashes when creating a new canvas after deleting one</li>
-    <li>Fixed the scheme in Studio not being applied to block comments</li>
-    <li>Fixed the Tile Mask editor in Nirvana2D not rendering correctly</li>
-    <li>Moved the viewport for the mesh preview to the center of the Mesh tab window in Serenity3D</li>
+    <h4>New features</h4>
+    <ul>
+
+    <li>New animation functions were added for tweening between frames in an actor.</li>
+    <li>New physics functions were added to Actor's for setting restitution, contact damping/stiffness, and setting and checking properties for continuous collision detection.</li>
+    <li>OPTION EXPLICIT setting was added to RCBasic Studio.  It can also be used from the command line by passing --option-explicit flag to rcbasic_build.</li>
+    <li>A few new examples were added including an example of loading a BSP map and applying some basic FPS controls, a simple 2D platformer project made with Nirvana, and a few others showing of some new features.</li>
     </ul>
 
+    <h4>Bug fixes</h4>
+    <ul>
+
+    <li>Fixed GetSpriteCollision() only returning true when collision first happens. It will now report true as long as the 2 sprites are touching.</li>
+    <li>Fixed TRIMESH shape causing a crash when used with animated actors.</li>
+    <li>Fixed the scheme in Studio not being applied to block comments.</li>
+    <li>Fixed an issue with Triangle() not drawing anything.</li>
+    </ul>
+
+    </details>
     <br>
+    <!-- POR QUÉ RCBASIC -->
     <h2>Why Use RCBasic?</h2>
 
     <p>
@@ -190,31 +224,34 @@
     <div style="display: flex; justify-content: center;
       align-items: center;">
       <a href="https://www.youtube.com/watch?v=bGbRNlWV-7M" target="_blank">
-        <img src="https://img.youtube.com/vi/bGbRNlWV-7M/maxresdefault.jpg" alt="Ver video" width="500">
+        <img src="https://img.youtube.com/vi/bGbRNlWV-7M/maxresdefault.jpg" alt="Ver video en YouTube" loading="lazy" width="500">
       </a>
     </div>
 
-    <h2><b>Related tools</b></h2>
+    <!-- HERRAMIENTAS INCLUIDAS: Nirvana2D y Serenity3D -->
+    <h2>Related tools</h2>
     <h3>These tools already come with the main RCBASIC file.</h3>
     <div class="tool">
-    <h4><img src="../assets/icon/nirvana_limpio.png" width="15%" height="15%">   Nirvana2D</h4>
-    <h4><img src="../assets/icon/serenity.png" width="15%" height="15%">   Serenity3D</h4>
-    <img src="../assets/images/cap_nirvana.png">
-    <img src="../assets/images/cap_serenity.png">
+    <h4><img src="../assets/icon/nirvana_limpio.png" width="48" alt="">&nbsp;Nirvana2D</h4>
+    <h4><img src="../assets/icon/serenity.png" width="48" alt="">&nbsp;Serenity3D</h4>
+    <img src="../assets/images/cap_nirvana.png" alt="Captura de Nirvana2D" loading="lazy">
+    <img src="../assets/images/cap_serenity.png" alt="Captura de Serenity3D" loading="lazy">
 
     </div><br><br>
     <p>The RCBASIC documentation contains more information about these tools that simplify and save you work in a visual way.</p>
 
+    <!-- OPEN SOURCE: el logo cambia al pasar el ratón -->
     <div class="container-open-source">
       <div class="contenedor-imagen">
-        <a href="https://github.com/n00b87/RCBASIC4"><img src="../assets/images/open_source2.png" class="imagen-origen"></a>
-        <a href="https://github.com/n00b87/RCBASIC4"><img src="../assets/images/open_source.png" class="imagen-destino"></a>
+        <a href="https://github.com/n00b87/RCBASIC4"><img src="../assets/images/open_source2.png" class="imagen-origen" alt="RCBasic en GitHub"></a>
+        <a href="https://github.com/n00b87/RCBASIC4"><img src="../assets/images/open_source.png" class="imagen-destino" alt=""></a>
       </div>
       <p>RCBasic is open source.</p>
     </div>
 
     </main>
 
+    <!-- PIE DE PÁGINA -->
     <footer class="footer">
 
     <div class="footer-container">
@@ -224,13 +261,13 @@
     <p>RCBasic Studio — Create games and applications easily.</p>
     </div>
 
-    
+
     <div class="social-networks">
       <p>Social networks</p>
-      <a href="https://github.com/n00b87/RCBASIC3/commits?author=n00b87"><i class="fi fi-brands-github"></i> Github</a>
+      <a href="https://github.com/n00b87/RCBASIC4"><i class="fi fi-brands-github"></i> Github</a>
       <a href="https://www.youtube.com/@n00bc0de7"><i class="fi fi-brands-youtube"></i> Youtube</a>
       <a href="https://n00bcode.itch.io/"><img src="../assets/icon/itchio.svg" width="16" height="16"> Itch.io</a>
-      <a href="https://bsky.app/profile/n00bc0de.bsky.social"><img src="../assets/icon/mariposa (1).png" width="16" height="16"> BlueSky</a>
+      <a href="https://bsky.app/profile/n00bc0de.bsky.social" ><img src="../assets/icon/mariposa (1).png" width="16" height="16"> BlueSky</a>
     </div>
 
     <div class="footer-links">
@@ -238,7 +275,7 @@
       <div class="footer-section">
       <h4>Website</h4>
       <a href="home.html">Home</a>
-      <a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1547726/rcbasic-v410-released">Download</a>
+      <a href="https://n00bcode.itch.io/rcbasic-basic-programming-language-for-games/devlog/1730695/rcbasic-v412-released">Download</a>
       <a href="examples.html">Examples</a>
       <a href="../rcbasic_docs/docs/build/html/index.html">Docs</a>
       <a href="https://rcbasic.freeforums.net/">Community</a>
@@ -254,6 +291,7 @@
 
     </footer>
 
+    <!-- slider del hero + efecto 3D de la tarjeta -->
     <script src="../js file/script.js"></script>
 
   </body>
